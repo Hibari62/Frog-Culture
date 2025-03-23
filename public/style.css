@@ -1,0 +1,392 @@
+/* Positionne le lien en haut à gauche */
+.external-link {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  background-color: #ccc;
+  color: #000;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000; /* pour s'assurer qu'il reste au-dessus */
+}
+
+
+/* Styles existants */
+body {
+  background: url("1.png") no-repeat center center fixed;
+  background-size: cover; 
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+  font-size: 18px;
+}
+
+#homeScreen, #createRoomScreen, #joinRoomScreen {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;    /* empile verticalement */
+  align-items: center;   
+  margin: 0 auto;
+  background-color: rgba(200, 255, 200, 0.95);
+  padding: 20px;
+  border-radius: 26px;
+  position: relative; /* si besoin d'ajustements ultérieurs */
+  border: 4px solid #1cbd51;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#homeScreen input {
+  margin: 10px 0;
+  font-size: 16px;     /* pour agrandir un peu */
+  padding: 8px 12px;   /* un peu de padding */
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color:#1cbd51;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.room-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 90%;
+}
+
+.left-panel, .right-panel {
+  width: 50%;
+  padding: 10px;
+  text-align: left;
+  border-radius: 4px;
+}
+
+#themesList {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+/* Masque l'écran par défaut */
+#questionScreen.hidden {
+  display: none;
+}
+
+/* Timer circulaire simple */
+#timerContainer {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#timerCircle {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 6px solid white;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+#timerValue {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #000;
+}
+
+
+/* Le conteneur autour des questions et réponses */
+#questionBox {
+  background-color: rgba(200, 255, 200, 0.95);
+  border: 4px solid #1cbd51;
+  padding: 20px;
+  border-radius: 45px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#correctionContent {
+  background-color: rgba(200, 255, 200, 0.95);
+  border: 4px solid #1cbd51;
+  padding: 20px;
+  border-radius: 45px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#questionContent {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#questionContent img {
+  margin-top: 20px; /* espace entre la question et l'image */
+  max-width: 60vh;
+  border: 4px solid #1cbd51;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#correctionContent img {
+  margin-top: 20px; /* espace entre la question et l'image */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 11px;
+  max-width: 60vh;
+  border: 4px solid #1cbd51;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#questionContent audio {
+  margin-top: 20px; /* espace entre la question et l'image */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#correctionContent audio {
+  margin-top: 20px; /* espace entre la question et l'image */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #388351;
+  transform: scale(1.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.1s ease;
+}
+
+#answerArea {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.centered {
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+#resultsScreen {
+  display: flex;
+  flex-direction: column; /* On empile verticalement */
+  align-items: center;    /* Centre horizontalement */
+  text-align: center;
+  margin-top: 30px;       /* Un peu d'espace en haut si besoin */
+}
+
+/* Espace entre le titre et le tableau */
+#finalTitle {
+  background-color: #1cbd51; /* fond vert */
+  border-radius: 10px;       /* angles arrondis */
+  color: #e3ffee;              /* texte blanc, si vous voulez */
+  padding: 10px 20px;        /* espace intérieur pour que le fond englobe le texte */
+  margin-bottom: 20px;
+  display: inline-block;     /* pour que le fond ne prenne que la largeur du texte */
+  font-family: arial black;
+  font-size: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Espace en bas du tableau avant le bouton */
+#rankingList {
+  display: flex;
+  flex-direction: column-reverse; /* le premier élément ajouté se retrouve en bas */
+  margin-bottom: 20px;            /* espace avant le bouton */
+}
+
+/* Chaque ligne du tableau de scores */
+.resultLine {
+  background-color: rgba(27, 118, 27, 0.7);
+  color: white;
+  width: 600px;           
+  height: 50px;           
+  display: flex;
+  justify-content: space-between; /* pseudo à gauche, score à droite */
+  align-items: center;           /* vertical align au centre */
+  margin: 0;                     /* pas d'espace entre les lignes */
+  padding: 0 30px;               /* un peu de padding horizontal */
+  opacity: 0;                    /* pour le fade-in */
+  transition: opacity 0.5s ease; /* animation d'opacité */
+}
+
+/* Le bouton retour à la salle : marge pour l'espacement final */
+#backToLobbyBtn {
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Classe pour masquer les écrans */
+.hidden {
+  display: none !important;
+}
+
+.frog-link {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 55px;      /* agrandir l'icône */
+  text-decoration: none; 
+  z-index: 1000;        /* pour rester au-dessus si besoin */
+}
+
+.frog-link:hover {
+  transform: scale(1.1); /* effet au survol */
+}
+
+.questionTitle {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.texteQuestion {
+  font-size: 30px;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 35px;
+  margin-bottom: 35px;
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+.themeItem {
+  display: flex; align-items: center;
+}
+
+.themeItem:hover {
+  font-weight: bold;
+}
+
+img {
+  transition: transform 0.3s ease;
+  cursor: pointer; /* curseur "main" au survol, indiquant la possibilité de cliquer */
+}
+
+/* Quand on clique, on applique la classe .enlarged */
+.enlarged {
+  transform: scale(1.7);
+  transform-origin: center center; /* pivot de l'agrandissement au centre de l'image */
+  z-index: 999; /* l'image passe au-dessus des autres éléments si besoin */
+}
+
+.enumerationTitle {
+  font-weight: bold;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.enumerationLetter {
+  font-weight: bold;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.playerNameCorrection {
+  font-weight: bold;
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-decoration: underline;
+}
+
+.answerCorrection {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.enumeration-input {
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  width: 200px;
+  border: none;
+  border-bottom: 2px solid #000;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.answer-input {
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  width: 200px;
+  border: none;
+  border-bottom: 2px solid #000;
+  padding: 5px;
+  font-size: 20px;
+  outline: none;
+}
+
+.nbQuestionsLabel {
+  font-weight: bold;     /* en gras */
+  font-size: 18px;       /* un peu plus grand, ajustez selon vos besoins */
+  margin-right: 8px;     /* petit espace à droite, si nécessaire */
+}
+
+.nbQuestionsInput {
+  opacity: 0.9;          /* opacité à 0.9 */
+  font-size: 16px;       /* agrandir un peu la police */
+  padding: 4px 8px;      /* un peu de padding interne */
+  width: 60px;           /* si vous voulez forcer une largeur, par exemple */
+}
+
+/* La ligne horizontale (box + bouton) */
+.enumerationRow {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* on centre la ligne horizontalement */
+  gap: 10px;           /* espace horizontal entre la box et le bouton */
+  margin-bottom: 10px; /* espace sous chaque ligne */
+}
+
+/* La box de réponse (bordure du bas seulement) */
+.enumerationAnswerBox {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-bottom: 2px solid #000;
+  padding: 5px;
+  width: 687px;        /* ajustez la largeur */
+  box-sizing: border-box;
+}
+
+.enumerationContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;          /* s'adapte, ou fixez une largeur max si besoin */
+}
+
+/* La sous-question elle-même, centrée */
+.subQuestion {
+  text-align: left;
+  margin: 0px 3px; /* un peu d'espace en bas */
+  font-weight: bold;        /* si vous voulez la mettre en gras */
+}
+
+#finalResultsBox {
+  background-color: rgba(200, 255, 200, 0.95);
+  border: 4px solid #1cbd51;
+  padding: 20px;
+  border-radius: 45px;
+  max-width: 800px;
+  margin: 20px auto; /* centré horizontalement, 20px de marge verticale */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#createRoomTitle {
+  text-decoration: underline;
+}

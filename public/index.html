@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz en ligne</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Lien vers l'autre site en haut à gauche -->
+  <a href="https://hibari-test-33fdb5a9b0d0.herokuapp.com" 
+  class="frog-link" 
+  target="_blank">
+  🐸
+  </a>
+  
+  <!-- Écran d'accueil -->
+  <div id="homeScreen">
+    <input type="text" id="pseudoInput" placeholder="Votre pseudo..." />
+    <div class="buttons">
+      <button id="joinRoomBtn" disabled>Rejoindre une salle</button>
+      <button id="createRoomBtn" disabled>Créer une salle</button>
+    </div>
+  </div>
+  
+  <!-- Écran de création de salle -->
+  <div id="createRoomScreen" class="hidden">
+    <h2 id="createRoomTitle">Création de salle</h2>
+    <div class="room-container">
+      <!-- Partie gauche : configuration de la partie -->
+      <div class="left-panel">
+        <label for="nbQuestions" class="nbQuestionsLabel">Nombre de questions :</label>
+        <input type="number" id="nbQuestions" min="1" max="30" value="3" class="nbQuestionsInput">
+        <div id="themesContainer">
+          <div class="themes-header">
+            <button id="toggleThemes">🐸</button>
+          </div>
+          <div id="themesList">
+            <!-- La liste des thèmes sera chargée depuis themes.json -->
+          </div>
+        </div>
+      </div>
+      <!-- Partie droite : affichage des joueurs -->
+      <div class="right-panel">
+        <h3 id="createRoomTitle">Joueurs dans la salle</h3>
+        <div id="playersList">
+          <!-- Affichage des pseudos -->
+        </div>
+      </div>
+    </div>
+    <button id="startGameBtn">Commencer</button>
+  </div>
+  
+  <!-- Écran pour rejoindre une salle -->
+  <div id="joinRoomScreen" class="hidden">
+    <h2>Rejoindre une salle</h2>
+    <div id="availableRooms">
+      <!-- Liste des salles disponibles, générée dynamiquement -->
+    </div>
+  </div>
+
+  <!-- Écran des questions -->
+  <div id="questionScreen" class="hidden">
+    <!-- Timer circulaire -->
+    <div id="timerContainer">
+      <div id="timerCircle">
+        <span id="timerValue">20</span>
+      </div>
+    </div>
+  
+    <!-- Contenu de la question -->
+    <div id="questionBox">
+      <div id="questionContent"></div>
+      <div id="answerArea"></div>
+    </div>
+  </div>
+
+  <div id="correctionScreen" class="hidden">
+    <h2>Correction</h2>
+    <div id="correctionContent"></div>
+  </div>
+  
+  <div id="resultsScreen" class="hidden">
+    <div id="finalResultsBox">
+      <h2 id="finalTitle">Résultats finaux</h2>
+      <div id="rankingList"></div>
+      <button id="backToLobbyBtn">Retour au lobby</button>
+    </div>
+  </div>
+    
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
