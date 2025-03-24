@@ -388,6 +388,7 @@ function startQuestion(roomId, questionIndex) {
 
   // Durée selon le type
   let duration = 20;
+  if (currentQuestion.type === "audio") duration = 22;
   if (currentQuestion.type === "classement") duration = 30;
   if (currentQuestion.type === "enumeration") duration = 40;
 
