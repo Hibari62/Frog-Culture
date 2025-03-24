@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const answerArea = document.getElementById("answerArea");
   const timerCircle = document.getElementById("timerCircle");
   const timerValue = document.getElementById("timerValue");
+  const volumeSlider = document.getElementById("globalVolumeSlider");
 
   let myPseudo = "";
   let currentRoomId = null;
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentQuestionIndex = 0;
   let gameInProgress = false;
   let currentPlayers = [];
+  let globalVolume = 0.4;
   
   // On gardera la dernière question reçue pour collecter la bonne réponse
   let lastQuestionData = null;
@@ -112,6 +114,14 @@ document.addEventListener("DOMContentLoaded", function() {
     socket.emit("getAvailableRooms");
   });
 
+  volumeSlider.addEventListener("input", (e) => {
+    globalVolume = parseFloat(e.target.value);
+    // Si vous voulez mettre à jour immédiatement les audios en cours de lecture :
+    document.querySelectorAll("audio").forEach(audio => {
+      audio.volume = globalVolume;
+    });
+  });
+
   // ========== Événements Socket côté client ==========
 
   // Liste des salles
@@ -180,6 +190,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     currentPlayers = players
     toggleUIForHost(iAmHost);
+  }
+
+  function createAudioElement(url) {
+    const audio = document.createElement("audio");
+    audio.src = url;
+    audio.controls = true;
+    audio.volume = globalVolume;    // on applique le volume global
+    return audio;
   }
 
   // Mise à jour des settings
@@ -258,6 +276,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // On va passer en mode "correction"
   
     // On masque l'écran de question et on affiche l'écran de correction
+    questionContent.innerHTML = "";
+    answerArea.innerHTML = "";
     questionScreen.classList.add("hidden");
     correctionScreen.classList.remove("hidden");
   
@@ -492,9 +512,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
     else if (qData.type === "audio") {
-      const audio = document.createElement("audio");
-      audio.controls = true;
-      audio.src = qData.questionData.url;
+      const audio = createAudioElement(qData.questionData.url);
+      audio.autoplay = true;
       questionContent.appendChild(audio);
     }
     else if (qData.type === "texte") {
@@ -725,9 +744,8 @@ document.addEventListener("DOMContentLoaded", function() {
       img.style.display = "block";
       correctionContent.appendChild(img);
     } else if (questionObj.type === "audio" && questionObj.questionData?.url) {
-      const audio = document.createElement("audio");
-      audio.controls = true;
-      audio.src = questionObj.questionData.url;
+      const audio = createAudioElement(questionObj.questionData.url);
+      audio.autoplay = true;
       audio.style.display = "block";
       audio.style.margin = "20px auto"; // centrage
       correctionContent.appendChild(audio);

@@ -58,5 +58,10 @@
     "index": "12",
     "nomtheme": "Rébus",
     "type": "image"
+  },
+  {
+    "index": "13",
+    "nomtheme": "Personnages de One Piece (audio)",
+    "type": "audio"
   }
 ]

@@ -160,11 +160,13 @@ button {
 #questionContent audio {
   margin-top: 20px; /* espace entre la question et l'image */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
 }
 
 #correctionContent audio {
   margin-top: 20px; /* espace entre la question et l'image */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
 }
 
 button:hover {
@@ -282,7 +284,7 @@ img {
 
 /* Quand on clique, on applique la classe .enlarged */
 .enlarged {
-  transform: scale(1.7);
+  transform: scale(1.9);
   transform-origin: center center; /* pivot de l'agrandissement au centre de l'image */
   z-index: 999; /* l'image passe au-dessus des autres éléments si besoin */
 }
@@ -389,4 +391,46 @@ img {
 
 #createRoomTitle {
   text-decoration: underline;
+}
+
+#globalVolumeSlider {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 150px;       /* ajustez la largeur du slider */
+  cursor: pointer;
+  background-color: rgba(0,0,0,0);
+  z-index: 9999;      /* pour qu'il soit toujours visible au-dessus */
+}
+
+/* Barre de volume verte (pour Chrome/Edge/Safari -webkit) */
+#globalVolumeSlider::-webkit-slider-runnable-track {
+  background: green;
+  height: 6px;              /* ajustez la hauteur */
+  border-radius: 3px;       /* arrondi */
+}
+
+#globalVolumeSlider::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  background: #fff;         /* pouce blanc */
+  border: 2px solid green;  /* bord vert */
+  border-radius: 50%;
+  margin-top: -5px;         /* pour centrer le pouce */
+  cursor: pointer;
+}
+
+/* Pour Firefox (pseudo-éléments -moz) : */
+#globalVolumeSlider::-moz-range-track {
+  background: green;
+  height: 6px;
+  border-radius: 3px;
+}
+#globalVolumeSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border: 2px solid green;
+  border-radius: 50%;
+  cursor: pointer;
 }
