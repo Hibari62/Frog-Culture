@@ -200,6 +200,37 @@ document.addEventListener("DOMContentLoaded", function() {
     return audio;
   }
 
+  function transformYouTubeUrl(originalUrl) {
+    const urlObj = new URL(originalUrl);
+    const videoId = urlObj.pathname.slice(1); // ex "_N5JJ18iv54"
+    const tParam = urlObj.searchParams.get("t"); // ex "61" ou "61s" ou "120"
+    let startTime = 0;
+    if (tParam) {
+      // s'il y a un "s" on l'enlève
+      const tValue = tParam.replace(/[^\d]/g, "");
+      startTime = parseInt(tValue, 10) || 0;
+    }
+  
+    // On construit l'URL embed
+    let embedUrl = `https://www.youtube.com/embed/${videoId}?start=${startTime}`;
+    return embedUrl;
+  }
+
+  function onYouTubeIframeAPIReady() {
+    // On crée un player depuis l’iframe dont l’id est "myYoutubeFrame"
+    const player = new YT.Player("myYoutubeFrame", {
+      events: {
+        'onReady': onPlayerReady
+      }
+    });
+  }
+  
+  function onPlayerReady(event) {
+    // event.target est le player
+    event.target.setVolume(6); // 6% de volume
+    event.target.playVideo();   // si vous voulez forcer la lecture
+  }
+
   // Mise à jour des settings
   socket.on("updateSettings", (settings) => {
     nbQuestionsInput.value = settings.nbQuestions || 3;
@@ -308,7 +339,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const toggleBtn = document.querySelector(selector);
     if (!toggleBtn) return; // le bouton n'existe pas ou plus ?
   
-    if (data.correctness) {
+    if (data.correctness === 1) {
+      toggleBtn.textContent = "MOYEN";
+      toggleBtn.style.backgroundColor = "grey";
+    } else if (data.correctness) {
       toggleBtn.textContent = "VRAI";
       toggleBtn.style.backgroundColor = "green";
     } else {
@@ -462,6 +496,7 @@ document.addEventListener("DOMContentLoaded", function() {
     switch (qData.type) {
       case "image":
       case "audio":
+      case "video":
       case "texte":
         displaySingleQuestion(qData, questionNumber, total);
         break;
@@ -521,6 +556,50 @@ document.addEventListener("DOMContentLoaded", function() {
       texteQuestion.textContent = `${qData.questionData.texte}`;
       texteQuestion.classList.add("texteQuestion");
       questionContent.appendChild(texteQuestion);
+    }
+    else if (qData.type === "video") {
+      const embedUrl = transformYouTubeUrl(qData.questionData.url);
+      // Créer un <iframe>
+      const iframe = document.createElement("iframe");
+      iframe.width = "800";
+      iframe.height = "450";
+      // On ajoute les paramètres pour enlever son, infos, contrôles, etc.
+      iframe.src = embedUrl + "&autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&disablekb=1";
+      // On autorise autoplay
+      iframe.allow = "autoplay; encrypted-media";
+      // On empêche tout clic
+      iframe.style.pointerEvents = "none";
+      // On centre ou stylise si besoin
+      iframe.style.display = "block";
+      iframe.style.margin = "10px auto";
+      questionContent.appendChild(iframe);
+      // Créer un overlay noir
+      const overlay = document.createElement("div");
+      overlay.style.position = "absolute";
+      overlay.style.top = "0";
+      overlay.style.left = "0";
+      overlay.style.width = iframe.width + "px";
+      overlay.style.height = 65 + "px";
+      overlay.style.backgroundColor = "black";
+      overlay.style.pointerEvents = "none"; // pour ne pas bloquer le clic (même si pointer-events est déjà none sur l’iframe)
+      overlay.style.zIndex = "9999";        // pour être au-dessus de l’iframe
+
+      const container = document.createElement("div");
+      container.style.position = "relative";
+      container.style.width = iframe.width + "px";
+      container.style.height = iframe.height + "px";
+      container.style.margin = "10px auto";
+
+      // Déplacer l’iframe dans le container
+      container.appendChild(iframe);
+      // Ajouter l’overlay par dessus
+      container.appendChild(overlay);
+      questionContent.appendChild(container);
+
+      // Retirer l'overlay après 2 secondes
+      setTimeout(() => {
+        overlay.remove();
+      }, 6000);
     }
 
     // Barre de réponse
@@ -627,6 +706,7 @@ document.addEventListener("DOMContentLoaded", function() {
     switch (lastQuestionData.type) {
       case "image":
       case "audio":
+      case "video":
       case "texte": {
         // On a mis un seul input dans answerArea
         const singleInput = answerArea.querySelector("input[type='text']");
@@ -745,7 +825,9 @@ document.addEventListener("DOMContentLoaded", function() {
       correctionContent.appendChild(img);
     } else if (questionObj.type === "audio" && questionObj.questionData?.url) {
       const audio = createAudioElement(questionObj.questionData.url);
-      audio.autoplay = true;
+      if (correctionCurrentPlayerIndex === 0) {
+        audio.autoplay = true;
+      }
       audio.style.display = "block";
       audio.style.margin = "20px auto"; // centrage
       correctionContent.appendChild(audio);
@@ -754,6 +836,24 @@ document.addEventListener("DOMContentLoaded", function() {
       texteQuestion.textContent = questionObj.questionData.texte;
       texteQuestion.classList.add("texteQuestion");
       correctionContent.appendChild(texteQuestion);
+    } else if (questionObj.type === "video" && questionObj.questionData?.url) {
+      const embedUrl = transformYouTubeUrl(questionObj.questionData.url);
+      // Créer un <iframe>
+      const iframe = document.createElement("iframe");
+      iframe.width = "560";
+      iframe.height = "315";
+      // On ajoute les paramètres pour enlever son, infos, contrôles, etc.
+      if (correctionCurrentPlayerIndex === 0) {
+        iframe.src = embedUrl + "&enablejsapi=1&autoplay=1&mute=0&controls=1&modestbranding=1&showinfo=0&rel=0&disablekb=0";
+        iframe.allow = "autoplay; encrypted-media";
+        iframe.id = "myYoutubeFrame";
+      } else {
+        iframe.src = embedUrl + "&autoplay=0&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&disablekb=1";
+      }
+      // On centre ou stylise si besoin
+      iframe.style.display = "block";
+      iframe.style.margin = "10px auto";
+      correctionContent.appendChild(iframe);
     }
   
     // 4) Joueur + réponse du joueur
@@ -772,10 +872,22 @@ document.addEventListener("DOMContentLoaded", function() {
     correctionContent.appendChild(answerDiv);
   
     // 5) Bouton toggle VRAI / FAUX
-    let correctness = false; // par défaut = FAUX
+    let correctness = 0;
     const toggleBtn = document.createElement("button");
-    toggleBtn.textContent = "FAUX";
-    toggleBtn.style.backgroundColor = "red";
+    function updateToggleBtn() {
+      if (correctness === 0) {
+        toggleBtn.textContent = "FAUX";
+        toggleBtn.style.backgroundColor = "red";
+      } else if (correctness === 1) {
+        toggleBtn.textContent = "NEUTRE";
+        toggleBtn.style.backgroundColor = "grey";
+      } else if (correctness === 3) {
+        toggleBtn.textContent = "VRAI";
+        toggleBtn.style.backgroundColor = "green";
+      }
+    }
+    updateToggleBtn();
+    
     toggleBtn.style.display = "block";    // Sur une ligne séparée
     toggleBtn.style.margin = "30px auto"; // Centré
 
@@ -786,7 +898,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     toggleBtn.addEventListener("click", () => {
       if (!iAmHost) return;
-      correctness = !correctness;
+      if (correctness === 0) {
+        correctness = 3;
+      } else if (correctness === 3) {
+        correctness = 1;
+      } else {
+        correctness = 0;
+      }
       socket.emit("toggleCorrectness", {
         roomId: currentRoomId,
         questionIndex: correctionCurrentQuestionIndex,
@@ -803,7 +921,7 @@ document.addEventListener("DOMContentLoaded", function() {
     nextBtn.style.margin = "10px auto";
     nextBtn.disabled = !iAmHost; // Seul l'hôte peut cliquer
     nextBtn.addEventListener("click", () => {
-      const points = correctness ? 3 : 0;
+      const points = correctness;
       socket.emit("validateAnswer", {
         roomId: currentRoomId,
         questionIndex: correctionCurrentQuestionIndex,
