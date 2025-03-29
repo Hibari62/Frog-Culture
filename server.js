@@ -72,6 +72,7 @@ function generatePlaylist(selectedThemes, nbQuestions) {
     switch (themeType) {
       case "image":
       case "audio":
+      case "video":
       case "texte": {
         // On pioche UNE question, en évitant les doublons
         questionObj = pickRandomQuestionAvoidingDuplicates(randomThemeIndex, usedQuestionsByTheme);
@@ -391,6 +392,7 @@ function startQuestion(roomId, questionIndex) {
   if (currentQuestion.type === "audio") duration = 22;
   if (currentQuestion.type === "classement") duration = 30;
   if (currentQuestion.type === "enumeration") duration = 40;
+  if (currentQuestion.type === "video") duration = 30;
 
   // On informe les joueurs de la nouvelle question
   io.to(roomId).emit("newQuestion", {
