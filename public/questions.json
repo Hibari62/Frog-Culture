@@ -1703,6 +1703,21 @@
       "url": "https://files.catbox.moe/r7xtz7.mp3",
       "question": "Qui est ce personnage de One Piece ?",
       "reponse": "Corazon (Rossinante)"
+    },
+    {
+      "numero": "338",
+      "question": "Qui est ce personnage de One Piece ?",
+      "reponse": "Bartolomeo"
+    },
+    {
+      "numero": "339",
+      "question": "Qui est ce personnage de One Piece ?",
+      "reponse": "Sabo"
+    },
+    {
+      "numero": "340",
+      "question": "Qui est ce personnage de One Piece ?",
+      "reponse": "Fujitora"
     }
   ],
   "14": [
@@ -1815,12 +1830,6 @@
       "reponse": "I sweat - sweet ARMS (Date a Live III)"
     },
     {
-      "numero": "219",
-      "url": "https://youtu.be/QfKry0xnzks?si=-CeAe7rWQGEr8Hr0&t=7",
-      "question": "De quelle musique vient ce clip ?",
-      "reponse": "SHINDA! - Masayoshi Oishi (Yuusha ga Shinda)"
-    },
-    {
       "numero": "253",
       "url": "https://youtu.be/Cgs9QfbGxPQ?si=oJhbANDua4bgqw9g&t=45",
       "question": "De quelle musique vient ce clip ?",
@@ -1837,12 +1846,6 @@
       "url": "https://youtu.be/cvmQt-0pqWs?si=VM6DUwGQUBEVDsxF&t=48",
       "question": "De quelle musique vient ce clip ?",
       "reponse": "Wagamama Mirror Heart - Ayaka Ohashi (Masamune)"
-    },
-    {
-      "numero": "256",
-      "url": "https://youtu.be/OoAQLrFyiGo?si=XnSrZB5HNGktPV3J&t=66",
-      "question": "De quelle musique vient ce clip ?",
-      "reponse": "Hey! Calorie Queen - Ayana Taketatsu (Dagashi Kashi)"
     },
     {
       "numero": "257",
@@ -1915,12 +1918,6 @@
       "url": "https://youtu.be/We_uZ7-_HmM?si=yhYUyLkBhwjKZ7vG&t=33",
       "question": "De quelle musique vient ce clip ?",
       "reponse": "Kyoumu Densen - ALI PROJECT (Another)"
-    },
-    {
-      "numero": "269",
-      "url": "https://youtu.be/BCHmqhZKwAM?si=47_gMnS1MihPiwY2&t=59",
-      "question": "De quelle musique vient ce clip ?",
-      "reponse": "Fiesta - +Plus (Fairy Tail)"
     },
     {
       "numero": "270",
